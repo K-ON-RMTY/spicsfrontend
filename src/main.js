@@ -10,6 +10,8 @@ import '@/assets/styles/all.css'
 import '@/assets/styles/iconfont.css'
 Vue.config.productionTip = false
 Vue.use(less)
+// 设置后端地址
+Vue.prototype.$remote = "http://qom3or861.hn-bkt.clouddn.com/"
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
