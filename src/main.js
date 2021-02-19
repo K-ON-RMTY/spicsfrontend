@@ -7,6 +7,7 @@ import store from './store'
 import less from 'less'
 import '@/assets/styles/reset.css'
 import '@/assets/styles/all.css'
+import '@/assets/styles/iconfont.css'
 Vue.config.productionTip = false
 Vue.use(less)
 /* eslint-disable no-new */
