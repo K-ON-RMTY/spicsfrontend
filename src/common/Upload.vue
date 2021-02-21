@@ -46,10 +46,19 @@
           </div>
         </div>
         <div class="add-desc-container">
-          <textarea name="imgsDesc"  class="add-desc">123</textarea>
+          <textarea name="imgsDesc"  class="add-desc" maxlength="300" placeholder="请输入图片描述"></textarea>
+          <div class="desc-word">还可输入字</div>
         </div>
-        <div class="add-kind"></div>
-        <div class="upload-btn-container"></div>
+        <div class="add-tag-container">
+          <input type="text" class="add-tag" placeholder="输入标签">
+          <div class="tag-name" v-for="(item,index) in tagForPicList" :key="index">
+            {{item}}
+            <div class=" iconfont delete-tag-btn">&#xe626;</div>
+          </div>
+        </div>
+        <div class="upload-btn-container">
+          <div class="upload-btn-word">发布</div>
+        </div>
       </div>
     </div>
   </div>
@@ -69,6 +78,7 @@ export default {
       albumName: "",
       albumNameList: ["aaa","bbb"],
       isShowAlbum: false,
+      tagForPicList: ["aaa","bbb"],
     };
   },
   methods: {
@@ -130,8 +140,12 @@ export default {
         });
     },
     dealCancelUpload() {
+      // 隐藏组件
+      this.$emit("isCancel")
       axios.delete("/api/pics/delete/imgs").then((res) => {
-        console.log(res);
+        this.imgList = []
+        this.isFull = false
+        console.log(res)
       });
     },
     dealRemoveImg(url) {
@@ -156,9 +170,9 @@ export default {
           }
         });
     },
-    // 获取画集列表
+    // 点击获取画集列表，并显示画集列表
     dealAlbumName() {
-
+      axios.get("")
     }
   },
 };
@@ -175,7 +189,7 @@ export default {
     background-color: white;
     width: 500px;
     // 不应该固定死 待删除
-    height: 600px;
+    // height: 600px;
     border-radius: 25px;
     // 水平垂直居中
     position: absolute;
@@ -200,16 +214,16 @@ export default {
       line-height: 60px;
     }
     .content {
-      background-color: rgba(140, 145, 140, 0.301);
+      // background-color: rgba(140, 145, 140, 0.301);
       // 不应该固定死 待删除
-      height: 520px;
+      // height: 520px;
       width: 80%;
       // 水平居中
-      position: absolute;
+      position: relative;
       left: 50%;
       transform: translateX(-50%);
       .add-img {
-        background-color: aquamarine;
+        // background-color: aquamarine;
         overflow: hidden;
         .add-img-el {
           // 每个预览图的大小
@@ -249,7 +263,7 @@ export default {
       .add-to-album {
         margin-top: 20px;
         height: 40px;
-        background-color: darkcyan;
+        // background-color: darkcyan;
         position: relative;
         .album-word {
           position: absolute;
@@ -335,11 +349,66 @@ export default {
       }
       .add-desc-container {
         width: 100%;
-        height: 200px;
+        height: 210px;
         margin-top: 10px;
-        background-color: violet;
+        // background-color: violet;
         .add-desc {
-          
+          width: 100%;
+          height: 190px;
+          border: 1px solid #f1f1f1;
+          resize: none;
+        }
+        .desc-word {
+          margin-top: 3px;
+          padding-left: 3px;
+          color: tomato;
+        }
+      }
+      .add-tag-container {
+        margin-top: 10px;
+        // background-color:wheat;
+        overflow: hidden;
+        height: 25px;
+        .add-tag {
+          border-bottom: 1px solid #f1f1f1;
+          margin-left: 4px;
+          float: left;
+          margin-top: 2px;
+        }
+        .tag-name {
+          float: left;
+          margin-left: 20px;
+          // background-color: aquamarine;
+          height: 23px;
+          padding: 0 10px;
+          text-align: center;
+          line-height: 20px;
+          position: relative;
+          border-radius: 25px;
+          margin-top: 2px;
+          .delete-tag-btn {
+            position: absolute;
+            font-size: 5px;
+            top: -5px;
+            right: -4px;
+          }
+        }
+      }
+      .upload-btn-container {
+        // background-color: deepskyblue;
+        margin-top: 12px;
+        // border-top: 1px solid #f1f1f1;
+        padding-top: 10px;
+        height: 55px;
+        .upload-btn-word {
+          width: 130px;
+          height: 50px;
+          border-radius: 20px;
+          // 居中
+          margin: auto;
+          background-color: salmon;
+          text-align: center;
+          line-height: 55px;
         }
       }
     }

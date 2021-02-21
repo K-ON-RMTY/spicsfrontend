@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <upload v-if="isShowUpload"></upload>
+    <upload v-if="isShowUpload" @isCancel="isCancel"></upload>
   </div>
 </template>
 
@@ -52,6 +52,7 @@ export default {
     return {
       kinds: [],
       isShowKinds: false,
+      isShowUpload: false,
       isShowUpload: false,
     };
   },
@@ -75,23 +76,27 @@ export default {
   },
   methods: {
     getKindsInfo() {
-      axios.get("/api/kinds").then(this.handleKindsInfo);
+      axios.get("/api/kinds").then(this.handleKindsInfo)
     },
     handleKindsInfo(res) {
-      res = res.data;
-      console.log(res);
+      res = res.data
+      console.log(res)
     },
     dealKindsOver() {
       // 鼠标移入分类容器时，显示分类
-      this.isShowKinds = true;
+      this.isShowKinds = true
     },
     dealKindsLeave() {
-      this.isShowKinds = false;
+      this.isShowKinds = false
     },
     dealUpload() {
       // 点击发布按钮当初发布组件
-      this.isShowUpload = true;
+      this.isShowUpload = true
     },
+    isCancel() {
+      // 隐藏发布组件
+      this.isShowUpload = false
+    }
   },
 };
 </script>
