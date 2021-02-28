@@ -1,5 +1,5 @@
 <template>
-  <div class="upload-cover">
+  <div class="upload-cover" >
     <div class="upload-box">
       <div class="close-btn iconfont" @click="dealCancelUpload">&#xe626;</div>
       <div class="word">上传图片</div>
@@ -35,29 +35,29 @@
           <div class="album-name-container" @click="dealAlbumName">{{albumName}}</div>
           <div class="iconfont album-down-icon">&#xe6c0;</div>
           <div class="album-list-container" v-if="isShowAlbum">
-            <div class="album-list" v-for="(item,index) in albumNameList" :key="index">
-              {{item}}
+            <div class="album-list" v-for="(item,index) in albumList" :key="index" @click="dealSelectAlbum(item)">
+              {{item.albumName}}
             </div>
           </div>
           <div class="album-create-container" v-if="isShowAlbum">
             <!-- 创建画集 -->
-            <input class="album-create">
-            <div class="album-create-btn">创建</div>
+            <input class="album-create" v-model="newAlbumName">
+            <div class="album-create-btn" @click="dealCreateAlbum">创建</div>
           </div>
         </div>
         <div class="add-desc-container">
-          <textarea name="imgsDesc"  class="add-desc" maxlength="300" placeholder="请输入图片描述"></textarea>
-          <div class="desc-word">还可输入字</div>
+          <textarea name="imgsDesc"  class="add-desc" maxlength="300" placeholder="请输入图片描述" v-model="picsDescription"></textarea>
+          <div class="desc-word">还可输入{{picsDescLast}}字</div>
         </div>
         <div class="add-tag-container">
-          <input type="text" class="add-tag" placeholder="输入标签">
+          <input type="text" class="add-tag" placeholder="输入标签" v-model="picTagName" @keyup.enter="dealCreatePicTag">
           <div class="tag-name" v-for="(item,index) in tagForPicList" :key="index">
-            {{item}}
-            <div class=" iconfont delete-tag-btn">&#xe626;</div>
+            {{item.tagName}}
+            <div class=" iconfont delete-tag-btn" @click="dealDeletePicTag(item)">&#xe626;</div>
           </div>
         </div>
         <div class="upload-btn-container">
-          <div class="upload-btn-word">发布</div>
+          <div class="upload-btn-word" @click="dealUpload">发布</div>
         </div>
       </div>
     </div>
@@ -76,10 +76,22 @@ export default {
       imgErrorMsg: "",
       isFull: false,
       albumName: "",
-      albumNameList: ["aaa","bbb"],
+      albumId: "",
+      albumList: [],
+      newAlbumName: "",
       isShowAlbum: false,
-      tagForPicList: ["aaa","bbb"],
+      picsDescription: "",
+      tagForPicList: [],
+      picTagName: ""
     };
+  },
+  computed : {
+    user() {
+      return this.$store.state.user
+    },
+    picsDescLast () {
+      return 300-this.picsDescription.length
+    }
   },
   methods: {
     // 上传头像时也有用！！写完抽取出来
@@ -172,7 +184,83 @@ export default {
     },
     // 点击获取画集列表，并显示画集列表
     dealAlbumName() {
-      axios.get("")
+      if (this.user == undefined) {
+        return
+      }
+      axios.get("/api/album/select/user/"+ this.user.id)
+        .then(res => {
+          if (res.data.status == 200) {
+            console.log(res)
+            this.albumList = res.data.data
+          }
+        })
+      this.isShowAlbum = !this.isShowAlbum
+    },
+    dealCreateAlbum () {
+      axios.post("/api/album/add", qs.stringify({
+        userId: this.user.id,
+        albumName: this.newAlbumName,
+        tagIds: null
+      })
+      ).then(res => {
+        if (res.data.status == 200) {
+          this.albumList.push(res.data.data)
+          this.newAlbumName = ""
+        }else {
+          console.log(res.data)
+        }
+      })
+    },
+    dealSelectAlbum (album) {
+      this.albumName = album.albumName
+      this.albumId = album.id
+    },
+    // 按下回车创建图片标签
+    dealCreatePicTag() {
+      console.log(11)
+      if(this.picTagName ==null || /\s/.test(this.picTagName) || this.picTagName.length == 0) {
+        console.log(this.picTagName)
+        return
+      }
+      axios.post("/api/tagforpic/add", qs.stringify({
+        userId: this.user.id,
+        tagName: this.picTagName
+      })
+      ).then(res => {
+        if (res.data.status == 200) {
+          this.tagForPicList.push(res.data.data)
+          this.picTagName = ""
+        }else if (res.data.status == 300) {
+          console.log(res)
+        }else if (res.data.status == 500) {
+          console.log(res)
+        }
+      })
+    },
+    // 删除图片标签
+    dealDeletePicTag (tag) {
+      // 不会删除服务器上的标签
+      this.tagForPicList = this.tagForPicList.filter((item)=>{
+        return item != tag
+      })
+    },
+    dealUpload () {
+      // 发布所有内容
+      axios.post("/api/pics/confirm/upload",qs.stringify({
+        userId: this.user.id,
+        albumId: this.albumId,
+        description: this.picsDescription,
+        picTags:this.tagForPicList
+          
+      })
+      ).then(res => {
+        if (res.data.status == 300) {
+          console.log(res);
+        }else if(res.data.status == 200){
+          // 成功则关闭上传组件
+          this.$emit("isCancel")
+        }
+      })
     }
   },
 };
@@ -281,6 +369,8 @@ export default {
           border-radius: 25px;
           position: absolute;
           left: 140px;
+          line-height: 25px;
+          text-align: center;
           // 垂直居中
           top: 50%;
           transform: translateY(-50%);
@@ -302,6 +392,7 @@ export default {
           // border: 1px solid black;
           border-top: none;
           border-bottom: none;
+          border: 1px solid #f1f1f1;
           left: 150px;
           // 显示滚动条
           overflow-y: scroll;
@@ -345,6 +436,9 @@ export default {
             right: 2px;
             top: 5px;
           }
+          .album-create-btn:hover {
+            cursor: pointer;
+          }
         }
       }
       .add-desc-container {
@@ -357,6 +451,7 @@ export default {
           height: 190px;
           border: 1px solid #f1f1f1;
           resize: none;
+          font-size: 18px;
         }
         .desc-word {
           margin-top: 3px;
@@ -392,6 +487,9 @@ export default {
             top: -5px;
             right: -4px;
           }
+          .delete-tag-btn:hover {
+            cursor: pointer;
+          }
         }
       }
       .upload-btn-container {
@@ -409,6 +507,9 @@ export default {
           background-color: salmon;
           text-align: center;
           line-height: 55px;
+        }
+        .upload-btn-word:hover {
+          cursor: pointer;
         }
       }
     }
