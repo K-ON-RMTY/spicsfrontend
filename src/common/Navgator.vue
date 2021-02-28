@@ -29,7 +29,7 @@
           <!-- 发布图标 -->
           <div class="upload" @click="dealUpload">发布</div>
         </div>
-        <div class="user-info">
+        <div class="user-info" @click="dealToSpace">
           <div class="avatar-container">
             <img class="avatar" :src="user.avatar" alt="头像" />
           </div>
@@ -99,6 +99,9 @@ export default {
     },
     dealToSetting () {
       this.$router.push('/setting')
+    },
+    dealToSpace () {
+      this.$router.push("/space")
     }
   },
 };
