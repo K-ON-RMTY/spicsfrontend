@@ -2,7 +2,7 @@
   <div class="container">
     <div class="login-container">
       <div class="logo-container">
-        <p>SPICS</p>
+        <p>绘画分享</p>
       </div>
       <p class="error-msg" v-if="isError">{{msg}}</p>
       <input class="username" type="text" v-model="username" placeholder="用户名"/>

@@ -28,11 +28,11 @@
       </div>
       <div class="album-container">
         <div class="album-wrapper">
-          <div class="album iconfont">&#xe61f;</div>
+          <div class="album iconfont">&#xe62c;</div>
           <div class="album-name">eva</div>
         </div>
         <div class="album-wrapper">
-          <div class="album iconfont">&#xe61f;</div>
+          <div class="album iconfont">&#xe62c;</div>
           <div class="album-name">薰嗣</div>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default {
   .user-info-container {
     height: 300px;
     position: relative;
-    background-color: tomato;
+    background-color: rgb(229, 152, 138);
     .user-info-wrapper {
       width: 700px;
       height: 300px;
@@ -111,7 +111,7 @@ export default {
       float: left;
       margin-top: 20px;
       margin-left: 20px;
-      background-color:cadetblue;
+      // background-color:cadetblue;
       .album {
         font-size: 100px;
       }

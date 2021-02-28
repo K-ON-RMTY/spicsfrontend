@@ -3,7 +3,7 @@
     <div class="nav-container">
       <div class="navgator">
         <div class="logo-container">
-          <div class="logo">SPICS</div>
+          <div class="logo">绘画分享</div>
         </div>
         <div
           class="kind-container"
@@ -142,7 +142,8 @@ export default {
           // 使文字垂直居中
           line-height: @pare-height;
           width: 100%;
-          font-size: 30px;
+          // 30px
+          font-size: 20px;
           // background-color: black;
           color: black;
           // 使文字居中
