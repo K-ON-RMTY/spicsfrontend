@@ -5,11 +5,14 @@ import App from './App'
 import router from './router'
 import store from './store'
 import less from 'less'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
 import '@/assets/styles/reset.css'
 import '@/assets/styles/all.css'
 import '@/assets/styles/iconfont.css'
+import 'swiper/dist/css/swiper.css'
 Vue.config.productionTip = false
 Vue.use(less)
+Vue.use(VueAwesomeSwiper)
 // 设置后端地址
 Vue.prototype.$remote = "http://qom3or861.hn-bkt.clouddn.com/"
 /* eslint-disable no-new */

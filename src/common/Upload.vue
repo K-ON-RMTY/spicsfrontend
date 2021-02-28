@@ -273,6 +273,7 @@ export default {
   background-color: rgba(204, 193, 193, 0.329);
   position: absolute;
   top: 0;
+  z-index: 9999;
   .upload-box {
     background-color: white;
     width: 500px;

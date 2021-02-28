@@ -34,7 +34,7 @@
             <img class="avatar" :src="user.avatar" alt="头像" />
           </div>
         </div>
-        <div class="setting-container">
+        <div class="setting-container" @click="dealToSetting">
           <div class="setting">设置</div>
         </div>
       </div>
@@ -96,6 +96,9 @@ export default {
     isCancel() {
       // 隐藏发布组件
       this.isShowUpload = false
+    },
+    dealToSetting () {
+      this.$router.push('/setting')
     }
   },
 };
