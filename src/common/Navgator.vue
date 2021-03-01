@@ -169,6 +169,7 @@ export default {
           border-bottom: none;
           overflow: hidden;
           transition: height 0.5s;
+          z-index: 9999;
           li {
             height: 25px;
             box-sizing: border-box;

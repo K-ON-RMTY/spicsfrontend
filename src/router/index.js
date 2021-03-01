@@ -5,6 +5,7 @@ import Home from '@/pages/home/Home'
 import Register from '@/pages/register/Register'
 import Setting from '@/pages/setting/Setting'
 import Space from '@/pages/space/Space'
+import Follow from '@/pages/follow/Follow'
 Vue.use(Router)
 
 export default new Router({
@@ -34,6 +35,10 @@ export default new Router({
     {
       path: '/space',
       component: Space
-    }
+    },
+    {
+      path: '/follow/:id',
+      component: Follow
+    },
   ]
 })
