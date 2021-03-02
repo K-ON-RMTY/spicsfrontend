@@ -6,6 +6,7 @@ import Register from '@/pages/register/Register'
 import Setting from '@/pages/setting/Setting'
 import Space from '@/pages/space/Space'
 import Follow from '@/pages/follow/Follow'
+import Search from '@/pages/search/Search'
 Vue.use(Router)
 
 export default new Router({
@@ -39,6 +40,10 @@ export default new Router({
     {
       path: '/follow/:id',
       component: Follow
+    },
+    {
+      path: '/search/:kw',
+      component: Search
     },
   ]
 })

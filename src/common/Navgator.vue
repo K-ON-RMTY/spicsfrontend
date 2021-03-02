@@ -20,9 +20,9 @@
         </div>
         <div class="search-container">
           <div class="search">
-            <input type="text" class="search-inp" placeholder="搜索框" />
+            <input type="text" v-model="searchKey" class="search-inp" placeholder="搜索框" @keyup.enter="dealToSearch"/>
             <!-- 搜索图标 -->
-            <span class="iconfont search-icon">&#xe638;</span>
+            <span class="iconfont search-icon" @click="dealToSearch">&#xe638;</span>
           </div>
         </div>
         <div class="upload-container">
@@ -54,6 +54,7 @@ export default {
       isShowKinds: false,
       isShowUpload: false,
       isShowUpload: false,
+      searchKey:"",
     };
   },
   components: {
@@ -102,6 +103,11 @@ export default {
     },
     dealToSpace () {
       this.$router.push("/space")
+    },
+    dealToSearch () {
+      if (this.searchKey.length>0) {
+        this.$router.push(`/search/${this.searchKey}`)
+      }
     }
   },
 };
