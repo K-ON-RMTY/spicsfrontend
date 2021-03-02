@@ -8,6 +8,7 @@ import Space from '@/pages/space/Space'
 import Follow from '@/pages/follow/Follow'
 import Search from '@/pages/search/Search'
 import ImgInfo from '@/pages/imgInfo/ImgInfo'
+import Album from '@/pages/album/Album'
 Vue.use(Router)
 
 export default new Router({
@@ -50,5 +51,9 @@ export default new Router({
       path: '/info/:id',
       component: ImgInfo
     },
+    {
+      path: '/album/:id',
+      component: Album
+    }
   ]
 })
