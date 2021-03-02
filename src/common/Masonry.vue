@@ -1,7 +1,7 @@
 <template>
   <div class="masonry-container">
     <div class="column">
-      <div class="item" v-for="(item, index) in col_1" :key="index">
+      <div class="item" v-for="(item, index) in col_1" :key="index" @click="dealToImgInfo(1)">
         <img :src="item.url" />
         <div class="info-container">
           <div class="like-btn iconfont" >&#xe67d;</div>
@@ -72,6 +72,9 @@ export default {
   methods: {
     dealLike (event) {
 
+    },
+    dealToImgInfo (id) {
+      this.$router.push(`/info/${id}`)
     }
   }
 };
